@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#eeeaff">
+
+    <title>StudyFlow | Student Planner</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <div>
+                <h2>StudyFlow</h2>
+                <span>STUDENT PLANNER</span>
+            </div>
+
+            <button class="icon-button sidebar-close" id="sidebarClose"
+                aria-label="Close navigation">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="profile">
+            <div class="avatar">S</div>
+
+            <div>
+                <h4 id="profileName">Student</h4>
+                <p>Keep learning ✨</p>
+            </div>
+
+            <button class="icon-button" onclick="editProfile()">
+                <i class="fa-solid fa-pen"></i>
+            </button>
+        </div>
+
+        <p class="menu-label">MENU UTAMA</p>
+
+        <nav class="navigation">
+
+            <button class="nav-item active" data-page="dashboard">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </button>
+
+            <button class="nav-item" data-page="tasks">
+                <i class="fa-solid fa-list-check"></i>
+                My Tasks
+                <span class="nav-count" id="taskCount">0</span>
+            </button>
+
+            <button class="nav-item" data-page="calendar">
+                <i class="fa-regular fa-calendar"></i>
+                Calendar
+            </button>
+
+            <button class="nav-item" data-page="schedule">
+                <i class="fa-solid fa-clock"></i>
+                Timetable
+            </button>
+
+            <button class="nav-item" data-page="notes">
+                <i class="fa-regular fa-note-sticky"></i>
+                My Notes
+            </button>
+
+            <button class="nav-item" data-page="focus">
+                <i class="fa-solid fa-stopwatch"></i>
+                Focus Room
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="quote-card">
+                <i class="fa-solid fa-quote-left"></i>
+                <p>Small progress is still progress. Keep going!</p>
+                <span>— StudyFlow</span>
+            </div>
+
+            <button class="nav-item" id="themeToggle">
+                <i class="fa-solid fa-moon"></i>
+                Dark Mode
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MOBILE BACKDROP -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <button class="icon-button mobile-menu" id="menuToggle"
+                aria-label="Open navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="breadcrumb">
+                <span>Workspace</span>
+                <i class="fa-solid fa-chevron-right"></i>
+                <strong id="currentPageName">Dashboard</strong>
+            </div>
+
+            <div class="top-actions">
+                <div class="today-date" id="todayDate"></div>
+
+                <button class="icon-button" id="notificationBtn">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section class="page active" id="dashboard">
+
+            <div class="welcome-section">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL STUDY SPACE</p>
+
+                    <h1>
+                        Good day,
+                        <span id="welcomeName">Student</span>! 👋
+                    </h1>
+
+                    <p class="subtitle">
+                        Ready to make today productive?
+                    </p>
+                </div>
+
+                <button class="primary-button" onclick="openTaskModal()">
+                    <i class="fa-solid fa-plus"></i>
+                    Add New Task
+                </button>
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card purple">
+                    <div class="stat-top">
+                        <span>Total Tasks</span>
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h2 id="totalTasks">0</h2>
+                    <p>All your assignments</p>
+                </div>
+
+                <div class="stat-card blue">
+                    <div class="stat-top">
+                        <span>Completed</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h2 id="completedTasks">0</h2>
+                    <p>Tasks successfully done</p>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-top">
+                        <span>Pending</span>
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <h2 id="pendingTasks">0</h2>
+                    <p>Tasks waiting for you</p>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-top">
+                        <span>Progress</span>
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h2 id="progressPercent">0%</h2>
+                    <p>Your completion rate</p>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel tasks-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Upcoming Tasks</h3>
+                            <p>Your next assignments</p>
+                        </div>
+
+                        <button class="text-button" onclick="showPage('tasks')">
+                            View all <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div id="upcomingTasks" class="task-list"></div>
+
+                </div>
+
+
+                <div class="panel progress-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Study Progress</h3>
+                            <p>Your achievement</p>
+                        </div>
+
+                        <i class="fa-solid fa-chart-pie panel-icon"></i>
+                    </div>
+
+                    <div class="progress-circle" id="progressCircle">
+                        <div>
+                            <h2 id="circlePercent">0%</h2>
+                            <span>Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-legend">
+                        <span><i class="dot purple-dot"></i> Completed</span>
+                        <span><i class="dot gray-dot"></i> Remaining</span>
+                    </div>
+
+                </div>
+
+
+                <div class="panel quick-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Quick Access</h3>
+                            <p>Tools for your productivity</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-grid">
+
+                        <button onclick="showPage('calendar')">
+                            <i class="fa-regular fa-calendar purple-text"></i>
+                            <span>Calendar</span>
+                        </button>
+
+                        <button onclick="showPage('schedule')">
+                            <i class="fa-solid fa-clock blue-text"></i>
+                            <span>Timetable</span>
+                        </button>
+
+                        <button onclick="showPage('notes')">
+                            <i class="fa-regular fa-note-sticky orange-text"></i>
+                            <span>My Notes</span>
+                        </button>
+
+                        <button onclick="showPage('focus')">
+                            <i class="fa-solid fa-stopwatch green-text"></i>
+                            <span>Focus Room</span>
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <div class="panel motivation-panel">
+
+                    <div class="motivation-content">
+                        <span>DAILY REMINDER ✨</span>
+                        <h3>Believe in your ability to learn.</h3>
+
+                        <p>
+                            You don't have to be perfect.
+                            Just keep showing up and doing your best.
+                        </p>
+                    </div>
+
+                    <i class="fa-solid fa-book-open-reader"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TASKS -->
+        <section class="page" id="tasks">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">STAY ORGANIZED</p>
+                    <h1>My Tasks 📝</h1>
+                    <p class="subtitle">Manage your assignments and deadlines.</p>
+                </div>
+
+                <button class="primary-button" onclick="openTaskModal()">
+                    <i class="fa-solid fa-plus"></i> New Task
+                </button>
+            </div>
+
+            <div class="task-controls">
+                <input type="search" id="taskSearch" placeholder="🔍 Search tasks...">
+
+                <select id="taskFilter">
+                    <option value="all">All Tasks</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                </select>
+
+                <select id="subjectFilter">
+                    <option value="all">All Subjects</option>
+                    <option>Mathematics</option>
+                    <option>English</option>
+                    <option>Indonesian</option>
+                    <option>Science</option>
+                    <option>History</option>
+                    <option>Computer Science</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Assignment List</h3>
+                    <span id="taskResultCount">0 tasks</span>
+                </div>
+
+                <div id="allTasks" class="task-list"></div>
+            </div>
+
+        </section>
+
+
+        <!-- CALENDAR -->
+        <section class="page" id="calendar">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">PLAN YOUR DAYS</p>
+                    <h1>My Calendar 📅</h1>
+                    <p class="subtitle">Keep track of your deadlines.</p>
+                </div>
+            </div>
+
+            <div class="panel calendar-panel">
+
+                <div class="calendar-header">
+                    <button class="icon-button" id="prevMonth">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <h2 id="calendarMonth"></h2>
+
+                    <button class="icon-button" id="nextMonth">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="calendar-weekdays">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                </div>
+
+                <div id="calendarDays" class="calendar-days"></div>
+
+                <div id="selectedDateTasks" class="selected-date-tasks">
+                    <h3>Select a date to see assignments</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TIMETABLE -->
+        <section class="page" id="schedule">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">YOUR WEEKLY ROUTINE</p>
+                    <h1>Class Timetable 📚</h1>
+                    <p class="subtitle">Organize your school schedule.</p>
+                </div>
+
+                <button class="primary-button" onclick="openScheduleModal()">
+                    <i class="fa-solid fa-plus"></i> Add Subject
+                </button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Weekly Schedule</h3>
+                    <span>Monday - Saturday</span>
+                </div>
+
+                <div id="timetableList" class="timetable-list"></div>
+            </div>
+
+        </section>
+
+
+        <!-- NOTES -->
+        <section class="page" id="notes">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">YOUR KNOWLEDGE SPACE</p>
+                    <h1>My Notes 💡</h1>
+                    <p class="subtitle">Save important ideas and study materials.</p>
+                </div>
+
+                <button class="primary-button" onclick="openNoteModal()">
+                    <i class="fa-solid fa-plus"></i> New Note
+                </button>
+            </div>
+
+            <div class="notes-grid" id="notesGrid"></div>
+
+        </section>
+
+
+        <!-- FOCUS ROOM -->
+        <section class="page" id="focus">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">TIME TO CONCENTRATE</p>
+                    <h1>Focus Room ⏳</h1>
+                    <p class="subtitle">One step at a time. Stay focused.</p>
+                </div>
+            </div>
+
+            <div class="focus-container panel">
+
+                <div class="focus-label">
+                    <i class="fa-solid fa-brain"></i>
+                    <span id="focusMode">Focus Session</span>
+                </div>
+
+                <div class="timer-circle">
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <p>Stay focused. You've got this!</p>
+                </div>
+
+                <div class="timer-modes">
+                    <button class="mode-button active" data-time="25" data-mode="Focus Session">
+                        Focus 25 min
+                    </button>
+
+                    <button class="mode-button" data-time="5" data-mode="Short Break">
+                        Short Break
+                    </button>
+
+                    <button class="mode-button" data-time="15" data-mode="Long Break">
+                        Long Break
+                    </button>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="primary-button" id="startTimer">
+                        <i class="fa-solid fa-play"></i> Start
+                    </button>
+
+                    <button class="secondary-button" id="resetTimer">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+
+                <div class="focus-tip">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <p>
+                        Put your phone aside, prepare your materials,
+                        and focus on one task at a time.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer class="footer">
+            <p>© 2026 StudyFlow Student Planner. Made for better learning. 💜</p>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="taskModal">
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <h2 id="taskModalTitle">Create New Task</h2>
+                <p>Fill in your assignment details.</p>
+            </div>
+
+            <button class="icon-button" onclick="closeModal('taskModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="taskForm">
+            <input type="hidden" id="taskId">
+
+            <label>Task Title</label>
+            <input type="text" id="taskTitle" required>
+
+            <label>Subject</label>
+            <select id="taskSubject">
+                <option>Mathematics</option>
+                <option>English</option>
+                <option>Indonesian</option>
+                <option>Science</option>
+                <option>History</option>
+                <option>Computer Science</option>
+                <option>Other</option>
+            </select>
+
+            <label>Deadline</label>
+            <input type="date" id="taskDeadline" required>
+
+            <label>Priority</label>
+            <select id="taskPriority">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+            </select>
+
+            <label>Description</label>
+            <textarea id="taskDescription"></textarea>
+
+            <button class="primary-button full-button" type="submit">
+                Save Task
+            </button>
+        </form>
+
+    </div>
+</div>
+
+
+<!-- NOTE MODAL -->
+<div class="modal-overlay" id="noteModal">
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <h2>New Study Note</h2>
+                <p>Write down something important.</p>
+            </div>
+
+            <button class="icon-button" onclick="closeModal('noteModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="noteForm">
+            <input type="hidden" id="noteId">
+
+            <label>Note Title</label>
+            <input type="text" id="noteTitle" required>
+
+            <label>Category</label>
+            <select id="noteCategory">
+                <option>Mathematics</option>
+                <option>English</option>
+                <option>Science</option>
+                <option>History</option>
+                <option>Computer Science</option>
+                <option>Other</option>
+            </select>
+
+            <label>Content</label>
+            <textarea id="noteContent" rows="6" required></textarea>
+
+            <button class="primary-button full-button" type="submit">
+                Save Note
+            </button>
+        </form>
+
+    </div>
+</div>
+
+
+<!-- SCHEDULE MODAL -->
+<div class="modal-overlay" id="scheduleModal">
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <h2>Add Class Schedule</h2>
+                <p>Organize your school timetable.</p>
+            </div>
+
+            <button class="icon-button" onclick="closeModal('scheduleModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="scheduleForm">
+
+            <label>Subject Name</label>
+            <input type="text" id="scheduleSubject" required>
+
+            <label>Day</label>
+            <select id="scheduleDay">
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+            </select>
+
+            <label>Start Time</label>
+            <input type="time" id="scheduleStart" required>
+
+            <label>End Time</label>
+            <input type="time" id="scheduleEnd" required>
+
+            <label>Room</label>
+            <input type="text" id="scheduleRoom">
+
+            <button class="primary-button full-button" type="submit">
+                Save Schedule
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMessage">Success!</span>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
